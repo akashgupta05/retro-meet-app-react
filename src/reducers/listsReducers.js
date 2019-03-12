@@ -5,11 +5,11 @@ const initialState = [
     cards: [
       {
         id: `card-${0}`,
-        content: "test content 1"
+        content: "test content 0"
       },
       {
         id: `card-${1}`,
-        content: "test content 2"
+        content: "test content 1"
       }
     ]
   },
@@ -19,15 +19,15 @@ const initialState = [
     cards: [
       {
         id: `card-${2}`,
-        content: "test content 3"
+        content: "test content 2"
       },
       {
         id: `card-${3}`,
-        content: "test content 4"
+        content: "test content 3"
       },
       {
         id: `card-${4}`,
-        content: "test content 5"
+        content: "test content 4"
       }
     ]
   }
