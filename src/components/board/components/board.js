@@ -24,7 +24,6 @@ class Board extends Component {
     ) {
       return;
     }
-    debugger;
     let lists = this.state.lists;
     const sourceColumn = this.state.lists.filter(list => {
       return list.id === source.droppableId;
@@ -37,7 +36,12 @@ class Board extends Component {
         lists[index].cards.splice(source.index, 1);
       }
       if (list.id === destination.droppableId) {
-        lists[index].cards.splice(destination.index, 0, destCard);
+        if (lists[index].cards.length <= destination.index) {
+          lists[index].cards.splice(destination.index, 0, destCard);
+        } else {
+          lists[index].cards[destination.index].content +=
+            " -- " + destCard.content;
+        }
       }
     });
     this.setState({
