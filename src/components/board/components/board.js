@@ -23,15 +23,6 @@ class Board extends Component {
     const cards = Array.from(sourceColumn[0].cards);
     const sourceCard = cards[source.index];
 
-    let a = {
-      draggableId: "card-3",
-      type: "DEFAULT",
-      source: { index: 1, droppableId: "list-1" },
-      reason: "DROP",
-      mode: "FLUID",
-      destination: null,
-      combine: { draggableId: "card-2", droppableId: "list-1" }
-    };
     if (result.combine) {
       console.log(JSON.stringify(result));
       this.state.lists.map((list, index) => {
