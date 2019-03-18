@@ -14,36 +14,61 @@ class Board extends Component {
 
   onDragEnd(result) {
     // TODO merging of cards
-    const { destination, source, draggableId } = result;
-    if (!destination) {
-      return;
-    }
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
+    const { destination, source, draggableId, combine } = result;
     let lists = this.state.lists;
     const sourceColumn = this.state.lists.filter(list => {
       return list.id === source.droppableId;
     });
 
     const cards = Array.from(sourceColumn[0].cards);
-    const destCard = cards[source.index];
-    this.state.lists.map((list, index) => {
-      if (list.id === source.droppableId) {
-        lists[index].cards.splice(source.index, 1);
-      }
-      if (list.id === destination.droppableId) {
-        if (lists[index].cards.length <= destination.index) {
-          lists[index].cards.splice(destination.index, 0, destCard);
-        } else {
-          lists[index].cards[destination.index].content +=
-            " -- " + destCard.content;
+    const sourceCard = cards[source.index];
+
+    let a = {
+      draggableId: "card-3",
+      type: "DEFAULT",
+      source: { index: 1, droppableId: "list-1" },
+      reason: "DROP",
+      mode: "FLUID",
+      destination: null,
+      combine: { draggableId: "card-2", droppableId: "list-1" }
+    };
+    if (result.combine) {
+      console.log(JSON.stringify(result));
+      this.state.lists.map((list, index) => {
+        if (list.id === source.droppableId) {
+          lists[index].cards.splice(source.index, 1);
         }
+        if (list.id === combine.droppableId) {
+          let cardIndex;
+          list.cards.map((card, index) => {
+            if (card.id === combine.draggableId) {
+              cardIndex = index;
+            }
+          });
+          lists[index].cards[cardIndex].content +=
+            "---" + sourceCard.content;
+        }
+      });
+    } else {
+      if (!destination) {
+        return;
       }
-    });
+      if (
+        destination.droppableId === source.droppableId &&
+        destination.index === source.index
+      ) {
+        return;
+      }
+
+      this.state.lists.map((list, index) => {
+        if (list.id === source.droppableId) {
+          lists[index].cards.splice(source.index, 1);
+        }
+        if (list.id === destination.droppableId) {
+          lists[index].cards.splice(destination.index, 0, sourceCard);
+        }
+      });
+    }
     this.setState({
       lists
     });

@@ -6,16 +6,9 @@ import { Draggable } from "react-beautiful-dnd";
 import { card } from "../stylesheets/cardStyle.css.js";
 
 class CardComponent extends React.Component {
-  getContent() {
-    let { content } = this.props;
-    const contentList = content.split("--");
-    // return contentList.map(text => <li>{text}</li>);
-    return content;
-  }
-
   render() {
     let { content } = this.props;
-    let contentList = content.split("--");
+    let contentList = content.split("---");
     const contentData = contentList.map(text => <div>{text}<br/></div>);
     return (
       <Draggable draggableId={this.props.id} index={this.props.index}>
