@@ -14,32 +14,52 @@ class Board extends Component {
 
   onDragEnd(result) {
     // TODO merging of cards
-    const { destination, source, draggableId } = result;
-    if (!destination) {
-      return;
-    }
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
-    debugger;
+    const { destination, source, draggableId, combine } = result;
     let lists = this.state.lists;
     const sourceColumn = this.state.lists.filter(list => {
       return list.id === source.droppableId;
     });
 
     const cards = Array.from(sourceColumn[0].cards);
-    const destCard = cards[source.index];
-    this.state.lists.map((list, index) => {
-      if (list.id === source.droppableId) {
-        lists[index].cards.splice(source.index, 1);
+    const sourceCard = cards[source.index];
+
+    if (result.combine) {
+      console.log(JSON.stringify(result));
+      this.state.lists.map((list, index) => {
+        if (list.id === source.droppableId) {
+          lists[index].cards.splice(source.index, 1);
+        }
+        if (list.id === combine.droppableId) {
+          let cardIndex;
+          list.cards.map((card, index) => {
+            if (card.id === combine.draggableId) {
+              cardIndex = index;
+            }
+          });
+          lists[index].cards[cardIndex].content +=
+            "---" + sourceCard.content;
+        }
+      });
+    } else {
+      if (!destination) {
+        return;
       }
-      if (list.id === destination.droppableId) {
-        lists[index].cards.splice(destination.index, 0, destCard);
+      if (
+        destination.droppableId === source.droppableId &&
+        destination.index === source.index
+      ) {
+        return;
       }
-    });
+
+      this.state.lists.map((list, index) => {
+        if (list.id === source.droppableId) {
+          lists[index].cards.splice(source.index, 1);
+        }
+        if (list.id === destination.droppableId) {
+          lists[index].cards.splice(destination.index, 0, sourceCard);
+        }
+      });
+    }
     this.setState({
       lists
     });

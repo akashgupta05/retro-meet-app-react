@@ -7,7 +7,7 @@ class List extends React.Component {
   render() {
     const { id, title, cards } = this.props;
     return (
-      <Droppable droppableId={id}>
+      <Droppable droppableId={id} isCombineEnabled={true}>
         {provided => (
           <div
             className="Cards-List"

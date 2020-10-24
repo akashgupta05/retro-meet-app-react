@@ -7,7 +7,9 @@ import { card } from "../stylesheets/cardStyle.css.js";
 
 class CardComponent extends React.Component {
   render() {
-    const { content } = this.props;
+    let { content } = this.props;
+    let contentList = content.split("---");
+    const contentData = contentList.map(text => <div>{text}<br/></div>);
     return (
       <Draggable draggableId={this.props.id} index={this.props.index}>
         {provided => (
@@ -19,7 +21,9 @@ class CardComponent extends React.Component {
           >
             <Card style={card.container}>
               <CardContent>
-                <Typography component="p">{content}</Typography>
+                <Typography component="p">
+                  {contentData}
+                </Typography>
               </CardContent>
             </Card>
           </div>
